@@ -49,6 +49,7 @@ typedef struct r_print_t {
 	int (*write)(const unsigned char *buf, int len);
 	PrintfCallback cb_printf;
 	char *(*cb_color)(int idx, int last, bool bg);
+	bool scr_prompt;
 	int (*disasm)(void *p, ut64 addr);
 	PrintfCallback oprintf;
 	int interrupt;
@@ -185,6 +186,9 @@ R_API ut32 r_print_rowoff(RPrint *p, int i);
 R_API void r_print_set_rowoff(RPrint *p, int i, ut32 offset, bool overwrite);
 R_API int r_print_row_at_off(RPrint *p, ut32 offset);
 R_API int r_print_pie(RPrint *p, ut64 *values, int nvalues, int size);
+
+R_API char* r_print_rowlog(RPrint *print, char *str);
+R_API void r_print_rowlog_done(RPrint *print, char *oldstr);
 
 // WIP
 R_API int r_print_unpack7bit(const char *src, char *dest);

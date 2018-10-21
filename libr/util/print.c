@@ -1968,3 +1968,30 @@ R_API void r_print_hex_from_bin (RPrint *p, char *bin_str) {
 	p->cb_printf ("\n");
 	free (buf);
 }
+
+R_API char* r_print_rowlog(RPrint *print, char *str) {
+	int use_color = print->flags & R_PRINT_FLAGS_COLOR;
+	bool verbose =  print->scr_prompt;
+	char* oldstr = str;
+	if (!verbose) {
+		return oldstr;
+	}
+	if (use_color) {
+		eprintf ("[ ] "Color_YELLOW"%s\r["Color_RESET, str);
+	} else {
+		eprintf ("[ ] %s\r[", str);
+	}
+	return oldstr;
+}
+
+R_API void r_print_rowlog_done(RPrint *print, char *oldstr) {
+	int use_color = print->flags & R_PRINT_FLAGS_COLOR;
+	bool verbose =  print->scr_prompt;
+	if (verbose) {
+		if (use_color) {
+			eprintf ("\r"Color_GREEN"[x]"Color_RESET" %s\n", oldstr);
+		} else {
+			eprintf ("\r[x] %s\n", oldstr);
+		}
+	}
+}
